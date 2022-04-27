@@ -1,0 +1,25 @@
+node('centos'){
+    properties([
+        parameters([
+            booleanParam(
+                name: 'prod_run',
+                defaultValue: false,
+                description: 'If true - Run the ansible playbook without flags. If false - with flags --check and --diff'
+            )
+        ])
+    ])
+    stage("Git checkout"){
+        git credentialsId: '09839795-e2da-4765-b6b7-9741b360b426', url: 'git@github.com:biker11rus/elk-ansible-jenkins.git'
+    }
+    stage("Run playbook"){
+        {
+            sh 'ansible-galaxy install -r requirements.yml -p roles'
+        }
+        if (params.prod_run){
+            sh 'ansible-playbook site.yml -i inventory/prod.yml'
+        }
+        else{
+            sh 'ansible-playbook --check --diff site.yml -i inventory/prod.yml'
+        }
+    }
+}
