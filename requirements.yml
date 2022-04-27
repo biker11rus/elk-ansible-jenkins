@@ -1,0 +1,8 @@
+---
+- name: elasticsearch
+  src: https://github.com/biker11rus/elastic_role.git
+- name: kibana_role
+  src: https://github.com/biker11rus/kibana-role.git
+- name: filebeat_role
+  src: https://github.com/biker11rus/filebeat-role.git
+  
